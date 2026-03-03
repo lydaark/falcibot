@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔮 Falcı Bot</title>
+</head>
+<body style="text-align:center; font-family:sans-serif; margin-top:50px;">
+
+<h1>🔮 Falcı Bot</h1>
+
+<input id="soru" placeholder="Sorunu yaz..." style="padding:10px;">
+<br><br>
+
+<button onclick="falBak()" style="padding:10px;">Falına Bak</button>
+
+<h2 id="sonuc"></h2>
+
+<script>
+function falBak() {
+    let cevaplar = [
+        "Evet... ama sabırlı olmalısın.",
+        "Hayır... şu an doğru zaman değil.",
+        "Bir dönem değişiyor, dikkatli ol.",
+        "Kalbinin sesini dinle.",
+        "Beklediğin haber çok yakında geliyor.",
+        "Birisi seni uzaktan düşünüyor...",
+        "Şu an kararsızlık enerjisi var.",
+        "Büyük bir değişim kapıda."
+    ];
+
+    let rastgele = cevaplar[Math.floor(Math.random() * cevaplar.length)];
+    document.getElementById("sonuc").innerText = rastgele;
+}
+</script>
+
+</body>
+</html>
