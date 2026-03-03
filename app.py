@@ -1,13 +1,17 @@
-from flask import Flask, request, jsonify
 from openai import OpenAI
 client = OpenAI()
-import os
 
-app = Flask(__name__)
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "Sen mistik ve cool bir falcısın."},
+        {"role": "user", "content": soru}
+    ]
+)
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-@app.route("/")
+return jsonify({
+    "cevap": response.choices[0].message.content
+})
 def home():
     return "Falci Bot çalışıyor 🔮"
 
@@ -43,17 +47,21 @@ def home():
 def fal():
     data = request.json
     soru = data.get("soru")
+from openai import OpenAI
+client = OpenAI()
 
-  from flask import Flask, request, jsonify, send_from_directory
-import openai
-import os
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "Sen mistik ve cool bir falcısın."},
+        {"role": "user", "content": soru}
+    ]
+)
 
-app = Flask(__name__, static_folder=".")
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-@app.route("/")
-def home():
+return jsonify({
+    "cevap": response.choices[0].message.content
+})
+ 
     return send_from_directory(".", "index.html")
 
 @app.route("/fal", methods=["POST"])
