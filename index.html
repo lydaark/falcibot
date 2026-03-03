@@ -121,13 +121,14 @@ function falaBak() {
     .then(data => {
         sonuc.innerText = data.cevap || "Cevap alınamadı...";
     })
-    .catch(err => {
-        sonuc.innerText = "Kader sisli… tekrar dene.";
-    });
+   .catch(err => {
+    sonuc.innerText = err;
+});
 }
 </script>
 
 </body>
 </html>
+
 
 
