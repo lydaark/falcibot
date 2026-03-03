@@ -18,7 +18,7 @@ def fal():
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevap ver."},
+            {"role": "system", "content": "Sen mistik, cool ve gizemli bir falcısın. Kısa ve etkileyici cevaplar ver."},
             {"role": "user", "content": soru}
         ]
     )
