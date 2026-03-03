@@ -3,7 +3,6 @@ from openai import OpenAI
 import os
 
 app = Flask(__name__)
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route("/")
@@ -18,14 +17,14 @@ def fal():
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Sen mistik, cool ve gizemli bir falcısın. Kısa ve etkileyici cevaplar ver."},
+            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevap ver."},
             {"role": "user", "content": soru}
         ]
     )
 
-    cevap = response.choices[0].message.content
-
-    return jsonify({"cevap": cevap})
+    return jsonify({
+        "cevap": response.choices[0].message.content
+    })
 
 if __name__ == "__main__":
     app.run()
