@@ -118,8 +118,10 @@ function falaBak() {
         }
         return res.json();
     })
-    .then(data => {
-        sonuc.innerText = data.cevap || "Cevap alınamadı...";
+   .then(data => {
+    console.log(data);
+    sonuc.innerText = data.cevap || "Cevap alınamadı...";
+})
     })
    .catch(err => {
     sonuc.innerText = err;
@@ -129,6 +131,7 @@ function falaBak() {
 
 </body>
 </html>
+
 
 
 
