@@ -1,64 +1,30 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<title>Falci Bot</title>
-<style>
-body {
-    background: linear-gradient(135deg, #1e1e2f, #3a3a6a);
-    color: white;
-    font-family: Arial;
-    text-align: center;
-    margin-top: 100px;
-}
-input {
-    padding: 10px;
-    width: 250px;
-    border-radius: 10px;
-    border: none;
-}
-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    background: pink;
-    cursor: pointer;
-}
-#sonuc {
-    margin-top: 20px;
-    font-style: italic;
-}
-</style>
-</head>
+from flask import Flask, request, jsonify, send_from_directory
+from openai import OpenAI
+import os
 
-<body>
+app = Flask(__name__)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-<h1>🔮 Falci Bot</h1>
+@app.route("/")
+def home():
+    return send_from_directory(".", "index.html")
 
-<input id="soru" placeholder="Sorunu yaz..." />
-<br>
-<button onclick="falBak()">Falına Bak</button>
+@app.route("/fal", methods=["POST"])
+def fal():
+    data = request.json
+    soru = data.get("soru")
 
-<p id="sonuc"></p>
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevap ver."},
+            {"role": "user", "content": soru}
+        ]
+    )
 
-<script>
-function falBak() {
-    let soru = document.getElementById("soru").value;
-
-    fetch("/fal", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ soru: soru })
+    return jsonify({
+        "cevap": response.choices[0].message.content
     })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("sonuc").innerText = data.cevap;
-    });
-}
-</script>
 
-</body>
-</html>
+if __name__ == "__main__":
+    app.run()
