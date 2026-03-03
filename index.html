@@ -1,63 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Falci Bot</title>
+    <title>Falci Bot</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #1e1e2f, #3a2b5c);
+            color: white;
+            text-align: center;
+            font-family: Arial;
+            margin-top: 100px;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            background: pink;
+            cursor: pointer;
+        }
+
+        #sonuc {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
+<body>
 
-<body style="text-align:center; font-family:sans-serif; background:#1e1e2f; color:white; padding-top:50px;">
+    <h1>🔮 Falcı Bot</h1>
 
-<h1>🔮 Falcı Bot</h1>
+    <input id="soru" placeholder="Sorunu yaz..." />
+    <br>
+    <button onclick="falBak()">Falına Bak</button>
 
-<input id="soru" placeholder="Sorunu yaz..." 
-style="padding:12px; border-radius:10px; border:none; width:200px;">
+    <p id="sonuc"></p>
 
-<br><br>
+    <script>
+        function falBak() {
+            let soru = document.getElementById("soru").value;
 
-<button onclick="falBak()" 
-style="padding:12px 20px; border:none; border-radius:20px; background:#ff4b8b; color:white; font-weight:bold;">
-Falına Bak
-</button>
-
-<h2 id="sonuc" style="margin-top:30px;"></h2>
-
-<script>
-function falBak() {
-let cevaplar = [
-"✨ Güzel bir gelişme geliyor",
-"💔 Biraz sabretmen gerek",
-"🔥 Büyük bir fırsat kapıda",
-"🌙 İç sesini dinlemelisin",
-"💫 Aşk hayatında hareket var",
-"⚡ Beklenmedik bir haber alacaksın"
-];
-
-let random = Math.floor(Math.random() * cevaplar.length);
-document.getElementById("sonuc").innerText = cevaplar[random];
-}
-</script>
+            fetch("/fal", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ soru: soru })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("sonuc").innerText = data.cevap;
+            });
+        }
+    </script>
 
 </body>
 </html>
-<script>
-function falBak() {
-    let soru = document.getElementById("soru").value;
-
-   fetch('https://falcibot-1.onrender.com/fal', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ soru: soru })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("sonuc").innerText = data.cevap;
-    });
-}
-</script>
-<input id="soru" placeholder="Sorunu yaz..." />
-<button onclick="falBak()">Falına Bak</button>
-
-<p id="sonuc"></p>
-
-
