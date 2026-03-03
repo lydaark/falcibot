@@ -1,109 +1,59 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Falci Bot</title>
+    <meta charset="UTF-8">
+    <title>Falci Bot</title>
 
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at center, #111 0%, #000 100%);
-    color: #d4af37;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    <style>
+        body {
+            background: radial-gradient(circle, #0f0c29, #302b63, #24243e);
+            color: gold;
+            font-family: Arial;
+            text-align: center;
+            margin-top: 100px;
+        }
 
-.container {
-    text-align: center;
-    background: rgba(0,0,0,0.6);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(212,175,55,0.2);
-    backdrop-filter: blur(10px);
-}
+        input {
+            padding: 12px;
+            width: 260px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 10px;
+        }
 
-h1 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-}
+        button {
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: none;
+            background: gold;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-input {
-    width: 260px;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    margin-bottom: 15px;
-    background: #111;
-    color: #d4af37;
-    box-shadow: 0 0 10px rgba(212,175,55,0.2);
-}
-
-input::placeholder {
-    color: #888;
-}
-
-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 20px;
-    background: linear-gradient(45deg, #d4af37, #b8962e);
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(212,175,55,0.6);
-}
-
-#sonuc {
-    margin-top: 20px;
-    font-size: 18px;
-    min-height: 30px;
-    color: #fff;
-}
-
-.loading {
-    opacity: 0.6;
-    font-style: italic;
-}
-</style>
-
+        #sonuc {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>🔮 Falcı</h1>
+    <h1>🔮 Falci Bot</h1>
 
-    <input id="soru" placeholder="Kaderini sor...">
-
+    <input id="soru" placeholder="Sorunu yaz...">
     <br>
+    <button onclick="falaBak()">Falına Bak</button>
 
-    <button onclick="falaBak()">Fala Bak</button>
+    <p id="sonuc"></p>
 
-    <div id="sonuc"></div>
-</div>
-
-<script>
 <script>
 function falaBak() {
     let soru = document.getElementById("soru").value;
     let sonuc = document.getElementById("sonuc");
 
-    if (!soru) {
-        sonuc.innerText = "Bir soru sormalısın...";
-        return;
-    }
-
-    sonuc.innerText = "Kehanet yazılıyor...";
+    sonuc.innerText = "🔮 Bakılıyor...";
 
     fetch("/fal", {
         method: "POST",
@@ -112,41 +62,16 @@ function falaBak() {
         },
         body: JSON.stringify({ soru: soru })
     })
-    .then(res => {
-        fetch("/fal", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ soru: soru })
-})
-.then(res => res.json())
-.then(data => {
-    console.log(data);
-    sonuc.innerText = data.cevap || "Cevap yok...";
-})
-.catch(err => {
-    console.error(err);
-    sonuc.innerText = "Fal şu an kapalı 🔮";
-});
-        }
-        return res.json();
+    .then(res => res.json())
+    .then(data => {
+        sonuc.innerText = data.cevap;
     })
-   .then(data => {
-    console.log(data);
-    sonuc.innerText = data.cevap || "Cevap alınamadı...";
-})
-    })
-   .catch(err => {
-    sonuc.innerText = err;
-});
+    .catch(err => {
+        sonuc.innerText = "Hata oluştu...";
+        console.log(err);
+    });
 }
 </script>
 
 </body>
 </html>
-
-
-
-
-
