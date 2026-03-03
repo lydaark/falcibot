@@ -42,7 +42,7 @@ document.getElementById("sonuc").innerText = cevaplar[random];
 function falBak() {
     let soru = document.getElementById("soru").value;
 
-    fetch("/fal", {
+   fetch('https://falcibot-1.onrender.com/fal', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -56,3 +56,4 @@ function falBak() {
 }
 </script>
 <input id="soru" placeholder="Sorunu yaz...">
+
