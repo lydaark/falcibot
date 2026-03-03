@@ -12,20 +12,30 @@ def home():
 
 @app.route("/fal", methods=["POST"])
 def fal():
-    data = request.json
-    soru = data.get("soru")
+    data = request.get_json()
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevaplar ver."},
-            {"role": "user", "content": soru}
-        ]
-    )
+    if not data or "soru" not in data:
+        return jsonify({"cevap": "Soru alınamadı."})
 
-    return jsonify({
-        "cevap": response.choices[0].message.content
-    })
+    soru = data["soru"]
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Sen cool ve mistik bir falcısın. Kısa ve etkileyici cevap ver."},
+                {"role": "user", "content": soru}
+            ]
+        )
+
+        return jsonify({
+            "cevap": response.choices[0].message.content
+        })
+
+    except Exception as e:
+        return jsonify({
+            "cevap": "Sunucu hatası: " + str(e)
+        })
 
 if __name__ == "__main__":
     app.run()
