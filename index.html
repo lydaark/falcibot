@@ -38,3 +38,20 @@ document.getElementById("sonuc").innerText = cevaplar[random];
 
 </body>
 </html>
+<script>
+function falBak() {
+    let soru = document.getElementById("soru").value;
+
+    fetch("/fal", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ soru: soru })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("sonuc").innerText = data.cevap;
+    });
+}
+</script>
