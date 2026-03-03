@@ -12,29 +12,20 @@ def home():
 
 @app.route("/fal", methods=["POST"])
 def fal():
-    try:
-        data = request.json
-        soru = data.get("soru")
+    data = request.json
+    soru = data.get("soru")
 
-        if not soru:
-            return jsonify({"cevap": "Bir soru yazmalısın..."}), 400
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevaplar ver."},
+            {"role": "user", "content": soru}
+        ]
+    )
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "Sen mistik, cool ve gizemli bir falcısın. Kısa ve etkileyici cevaplar ver."},
-                {"role": "user", "content": soru}
-            ]
-        )
-
-        cevap = response.choices[0].message.content
-
-        return jsonify({"cevap": cevap})
-
-    except Exception as e:
-        print("HATA:", str(e))
-        return jsonify({"cevap": "Fal kapalı... enerjiler karışık 🔮"}), 500
-
+    return jsonify({
+        "cevap": response.choices[0].message.content
+    })
 
 if __name__ == "__main__":
     app.run()
