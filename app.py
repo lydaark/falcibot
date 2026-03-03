@@ -17,14 +17,14 @@ def fal():
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevaplar ver."},
+            {"role": "system", "content": "Sen mistik, gizemli ve cool bir falcısın. Kısa ama etkileyici cevap ver."},
             {"role": "user", "content": soru}
         ]
     )
 
-    return jsonify({
-        "cevap": response.choices[0].message.content
-    })
+    cevap = response.choices[0].message.content
+
+    return jsonify({"cevap": cevap})
 
 if __name__ == "__main__":
     app.run()
