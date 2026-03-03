@@ -4,7 +4,7 @@
     <title>Falci Bot</title>
     <style>
         body {
-            background: linear-gradient(to right, #1e1e2f, #3a0ca3);
+            background: linear-gradient(to right, #1e3c72, #2a5298);
             color: white;
             font-family: Arial;
             text-align: center;
@@ -19,40 +19,44 @@
         button {
             margin-top: 10px;
             padding: 10px 20px;
-            border-radius: 10px;
+            border-radius: 20px;
             border: none;
             background: pink;
             cursor: pointer;
         }
     </style>
 </head>
+
 <body>
 
-<h1>🔮 Falci Bot</h1>
+    <h1>🔮 Falcı Bot</h1>
 
-<input id="soru" placeholder="Sorunu yaz...">
-<br>
-<button onclick="falBak()">Falına Bak</button>
+    <input id="soru" placeholder="Sorunu yaz..." />
+    <br>
+    <button onclick="falBak()">Falına Bak</button>
 
-<h2 id="sonuc"></h2>
+    <h3 id="sonuc"></h3>
 
-<script>
-function falBak() {
-    let soru = document.getElementById("soru").value;
+    <script>
+        function falBak() {
+            let soru = document.getElementById("soru").value;
 
-    fetch("/fal", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ soru: soru })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("sonuc").innerText = data.cevap;
-    });
-}
-</script>
+            fetch("/fal", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ soru: soru })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("sonuc").innerText = data.cevap;
+            })
+            .catch(err => {
+                document.getElementById("sonuc").innerText = "Bir şeyler ters gitti...";
+            });
+        }
+    </script>
 
 </body>
 </html>
