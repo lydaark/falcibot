@@ -112,7 +112,12 @@ function falaBak() {
         },
         body: JSON.stringify({ soru: soru })
     })
-    .then(res => res.json())
+    .then(res => {
+    if (!res.ok) {
+        throw new Error("Sunucu hatası");
+    }
+    return res.json();
+})
     .then(data => {
         sonuc.classList.remove("loading");
         sonuc.innerText = data.cevap;
@@ -126,3 +131,4 @@ function falaBak() {
 
 </body>
 </html>
+
