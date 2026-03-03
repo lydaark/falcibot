@@ -1,93 +1,31 @@
+from flask import Flask, request, jsonify, send_from_directory
 from openai import OpenAI
-client = OpenAI()
-
-response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "Sen mistik ve cool bir falcısın."},
-        {"role": "user", "content": soru}
-    ]
-)
-
-return jsonify({
-    "cevap": response.choices[0].message.content
-})
-def home():
-    return "Falci Bot çalışıyor 🔮"
-
-@app.route("/fal", methods=["POST"])
-def fal():
-    data = request.json
-    soru = data.get("soru")
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "Sen mistik bir falcısın."},
-            {"role": "user", "content": soru}
-        ]
-    )
-
-    cevap = response.choices[0].message.content
-    return jsonify({"cevap": cevap})
-    from flask import Flask, request, jsonify, send_from_directory
-import openai
 import os
 
 app = Flask(__name__)
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
 
-
-@app.route("/fal", methods=["POST"])
-def fal():
-    data = request.json
-    soru = data.get("soru")
-from openai import OpenAI
-client = OpenAI()
-
-response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": "Sen mistik ve cool bir falcısın."},
-        {"role": "user", "content": soru}
-    ]
-)
-
-return jsonify({
-    "cevap": response.choices[0].message.content
-})
- 
-    return send_from_directory(".", "index.html")
-
 @app.route("/fal", methods=["POST"])
 def fal():
     data = request.json
     soru = data.get("soru")
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Sen mistik bir falcısın. Kullanıcının sorusuna etkileyici, kısa ve gizemli cevap ver."},
+            {"role": "system", "content": "Sen mistik ve cool bir falcısın. Kısa ve etkileyici cevaplar ver."},
             {"role": "user", "content": soru}
         ]
     )
 
-    cevap = response["choices"][0]["message"]["content"]
-
-    return jsonify({"cevap": cevap})
-
-if __name__ == "__main__":
-    app.run()
-
     return jsonify({
         "cevap": response.choices[0].message.content
     })
-
 
 if __name__ == "__main__":
     app.run()
