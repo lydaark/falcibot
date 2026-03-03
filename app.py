@@ -19,17 +19,19 @@ def fal():
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-               {"role": "system", "content": "Sen gizemli, karizmatik ve biraz tehlikeli bir falcısın. İnsanların duygularını hissediyorsun. Cevapların kısa, çarpıcı ve merak uyandırıcı olmalı. Bazen net konuşma, bazen üstü kapalı söyle. Kullanıcıyı düşündür ve biraz bağımlı yap."}
-                {"role": "user", "content": soru}
+                {"role": "system", "content": "Sen gizemli, karizmatik ve biraz tehlikeli bir falcısın. Kısa ve etkileyici cevap ver."},
+                {"role": "user", "content": f"Kullanıcının sorusu: {soru}. Ona gizemli bir fal bak."}
             ]
         )
 
-        cevap = response.choices[0].message.content
-
-        return jsonify({"cevap": cevap})
+        return jsonify({
+            "cevap": response.choices[0].message.content
+        })
 
     except Exception as e:
-        return jsonify({"cevap": f"HATA: {str(e)}"})
+        return jsonify({
+            "cevap": f"HATA: {str(e)}"
+        })
 
 if __name__ == "__main__":
     app.run()
