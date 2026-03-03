@@ -93,6 +93,7 @@ button:hover {
 </div>
 
 <script>
+<script>
 function falaBak() {
     let soru = document.getElementById("soru").value;
     let sonuc = document.getElementById("sonuc");
@@ -103,7 +104,6 @@ function falaBak() {
     }
 
     sonuc.innerText = "Kehanet yazılıyor...";
-    sonuc.classList.add("loading");
 
     fetch("/fal", {
         method: "POST",
@@ -113,22 +113,21 @@ function falaBak() {
         body: JSON.stringify({ soru: soru })
     })
     .then(res => {
-    if (!res.ok) {
-        throw new Error("Sunucu hatası");
-    }
-    return res.json();
-})
+        if (!res.ok) {
+            throw new Error("Sunucu hatası");
+        }
+        return res.json();
+    })
     .then(data => {
-        sonuc.classList.remove("loading");
-        sonuc.innerText = data.cevap;
+        sonuc.innerText = data.cevap || "Cevap alınamadı...";
     })
     .catch(err => {
-        sonuc.classList.remove("loading");
-        sonuc.innerText = "Kader şu an sessiz...";
+        sonuc.innerText = "Kader sisli… tekrar dene.";
     });
 }
 </script>
 
 </body>
 </html>
+
 
