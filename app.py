@@ -12,20 +12,24 @@ def home():
 
 @app.route("/fal", methods=["POST"])
 def fal():
-    data = request.json
-    soru = data.get("soru")
+    try:
+        data = request.json
+        soru = data.get("soru")
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "Sen mistik, cool ve gizemli bir falcısın. Kısa ama etkileyici cevap ver."},
-            {"role": "user", "content": soru}
-        ]
-    )
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Sen mistik, cool bir falcısın."},
+                {"role": "user", "content": soru}
+            ]
+        )
 
-    cevap = response.choices[0].message.content
+        cevap = response.choices[0].message.content
 
-    return jsonify({"cevap": cevap})
+        return jsonify({"cevap": cevap})
+
+    except Exception as e:
+        return jsonify({"cevap": f"HATA: {str(e)}"})
 
 if __name__ == "__main__":
     app.run()
