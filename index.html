@@ -1,59 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Falci Bot</title>
+<meta charset="UTF-8">
+<title>Falcı 🔮</title>
 
-    <style>
-        body {
-            background: radial-gradient(circle, #0f0c29, #302b63, #24243e);
-            color: gold;
-            font-family: Arial;
-            text-align: center;
-            margin-top: 100px;
-        }
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #0a0a0a, #000);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d4af37;
+}
 
-        input {
-            padding: 12px;
-            width: 260px;
-            border-radius: 10px;
-            border: none;
-            margin-bottom: 10px;
-        }
+.container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 0 60px rgba(212,175,55,0.15);
+    width: 320px;
+}
 
-        button {
-            padding: 12px 20px;
-            border-radius: 20px;
-            border: none;
-            background: gold;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-        }
+h1 {
+    font-size: 34px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
 
-        #sonuc {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-    </style>
+.subtitle {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #111;
+    color: #d4af37;
+    outline: none;
+    margin-bottom: 15px;
+    box-shadow: 0 0 10px rgba(212,175,55,0.1);
+}
+
+input::placeholder {
+    color: #555;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(45deg, #d4af37, #b8962e);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(212,175,55,0.5);
+}
+
+#sonuc {
+    margin-top: 25px;
+    font-size: 16px;
+    color: #eee;
+    min-height: 40px;
+    line-height: 1.5;
+}
+
+.loading {
+    opacity: 0.6;
+    font-style: italic;
+}
+</style>
 </head>
 
 <body>
 
-    <h1>🔮 Falci Bot</h1>
+<div class="container">
+    <h1>🔮 FALCI</h1>
+    <div class="subtitle">Kaderini öğrenmeye hazır mısın?</div>
 
-    <input id="soru" placeholder="Sorunu yaz...">
-    <br>
-    <button onclick="falaBak()">Falına Bak</button>
+    <input id="soru" placeholder="Bir şeyler hissediyorum... sorunu yaz">
 
-    <p id="sonuc"></p>
+    <button onclick="falaBak()">Fala Bak</button>
+
+    <div id="sonuc"></div>
+</div>
 
 <script>
 function falaBak() {
     let soru = document.getElementById("soru").value;
     let sonuc = document.getElementById("sonuc");
 
-    sonuc.innerText = "🔮 Bakılıyor...";
+    if (!soru) {
+        sonuc.innerText = "Kader sessiz kalıyor… bir şey sormalısın.";
+        return;
+    }
+
+    sonuc.innerText = "🔮 Kehanet geliyor...";
+    sonuc.classList.add("loading");
 
     fetch("/fal", {
         method: "POST",
@@ -64,11 +120,12 @@ function falaBak() {
     })
     .then(res => res.json())
     .then(data => {
+        sonuc.classList.remove("loading");
         sonuc.innerText = data.cevap;
     })
     .catch(err => {
-        sonuc.innerText = "Hata oluştu...";
-        console.log(err);
+        sonuc.classList.remove("loading");
+        sonuc.innerText = "Enerjiler karıştı… tekrar dene.";
     });
 }
 </script>
