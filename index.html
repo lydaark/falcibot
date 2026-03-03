@@ -113,8 +113,22 @@ function falaBak() {
         body: JSON.stringify({ soru: soru })
     })
     .then(res => {
-        if (!res.ok) {
-            throw new Error("Sunucu hatası");
+        fetch("/fal", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ soru: soru })
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    sonuc.innerText = data.cevap || "Cevap yok...";
+})
+.catch(err => {
+    console.error(err);
+    sonuc.innerText = "Fal şu an kapalı 🔮";
+});
         }
         return res.json();
     })
@@ -131,6 +145,7 @@ function falaBak() {
 
 </body>
 </html>
+
 
 
 
