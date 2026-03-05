@@ -80,6 +80,12 @@ font-size:18px;
 {% if answer %}
 <p>{{ answer }}</p>
 {% endif %}
+  {% if tarot %}
+<h2>Tarot Kartların</h2>
+<p>{{ tarot[0] }}</p>
+<p>{{ tarot[1] }}</p>
+<p>{{ tarot[2] }}</p>
+{% endif %}
 
 </div>
 
@@ -87,3 +93,4 @@ font-size:18px;
 
 </body>
 </html>
+
