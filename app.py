@@ -1,41 +1,56 @@
-from flask import Flask, request, jsonify, send_from_directory
-from openai import OpenAI
-import os
+from flask import Flask, render_template, request
+import random
 
 app = Flask(__name__)
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Fal cevapları
+fal_cevaplari = [
+"Yakında güzel bir haber alacaksın.",
+"Bu konuda biraz sabırlı olman gerekiyor.",
+"Şu an doğru zaman değil.",
+"Beklenmedik bir fırsat kapını çalabilir.",
+"Geçmişten biri tekrar hayatına girebilir.",
+"Yeni bir başlangıç görünüyor.",
+"İç sesini dinlemelisin.",
+"Bir yolculuk görünüyor.",
+"Bir dileğin gerçekleşebilir."
+]
 
-@app.route("/")
-def home():
-    return send_from_directory(".", "index.html")
+# Tarot kartları
+tarot_kartlari = [
+"The Fool",
+"The Magician",
+"The High Priestess",
+"The Empress",
+"The Emperor",
+"The Lovers",
+"The Chariot",
+"Strength",
+"The Hermit",
+"Wheel of Fortune",
+"The Star",
+"The Moon",
+"The Sun"
+]
 
-@app.route("/fal", methods=["POST"])
-def fal():
-    data = request.get_json()
+@app.route("/", methods=["GET","POST"])
+def index():
 
-    if not data or "soru" not in data:
-        return jsonify({"cevap": "Soru alınamadı."})
+    fal_sonucu = ""
+    tarot_sonuc = []
 
-    soru = data["soru"]
+    if request.method == "POST":
 
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "Sen cool ve mistik bir falcısın. Kısa ve etkileyici cevap ver."},
-                {"role": "user", "content": soru}
-            ]
-        )
+        # soru falı
+        if request.form.get("question"):
+            fal_sonucu = random.choice(fal_cevaplari)
 
-        return jsonify({
-            "cevap": response.choices[0].message.content
-        })
+        # tarot kartları
+        tarot_sonuc = random.sample(tarot_kartlari,3)
 
-    except Exception as e:
-        return jsonify({
-            "cevap": "Sunucu hatası: " + str(e)
-        })
+    return render_template("index.html",
+                           answer=fal_sonucu,
+                           tarot=tarot_sonuc)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=False)
