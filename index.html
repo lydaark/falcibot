@@ -2,159 +2,88 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Falcı AI</title>
+<title>🔮 Fal Bot</title>
 
 <style>
 
 body{
-background:#0a0a0a;
+background:#000;
 color:#d4af37;
-font-family:serif;
+font-family:Arial, Helvetica, sans-serif;
 text-align:center;
-padding:40px;
+padding-top:100px;
 }
 
 .container{
-max-width:600px;
+width:400px;
 margin:auto;
+padding:40px;
+border:2px solid #d4af37;
+border-radius:15px;
+box-shadow:0 0 25px rgba(212,175,55,0.5);
 }
 
 h1{
-font-size:40px;
-margin-bottom:10px;
+margin-bottom:30px;
 }
 
 input{
-width:80%;
+width:90%;
 padding:12px;
-margin:10px;
 border:none;
 border-radius:8px;
-background:#111;
-color:white;
+margin-bottom:20px;
+font-size:16px;
 }
 
 button{
-background:gold;
+background:#d4af37;
+color:black;
 border:none;
 padding:12px 25px;
+font-size:16px;
 border-radius:8px;
 cursor:pointer;
 }
 
 button:hover{
-box-shadow:0 0 10px gold;
+background:#b8962e;
 }
 
-.cards{
-display:flex;
-justify-content:center;
-gap:20px;
+.result{
 margin-top:30px;
-}
-
-.card{
-width:100px;
-height:160px;
-border:2px solid gold;
-border-radius:10px;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#111;
-transition:0.5s;
-}
-
-.card:hover{
-transform:scale(1.1);
-}
-
-.spinner{
-border:4px solid #333;
-border-top:4px solid gold;
-border-radius:50%;
-width:40px;
-height:40px;
-animation:spin 1s linear infinite;
-margin:auto;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg)}
-100%{transform:rotate(360deg)}
+font-size:18px;
 }
 
 </style>
 
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>🔮 Falcı AI</h1>
+<h1>🔮 Fal Bot</h1>
 
-<p>Sorunu yaz</p>
+<form method="POST">
 
-<form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
-
-<input type="text" name="question" placeholder="Aşk hayatım nasıl olacak?">
+<input type="text" name="question" placeholder="Bir soru sor..." required>
 
 <br>
 
 <button type="submit">Fal Bak</button>
 
-<br><br>
-
-<p>Kahve fincanı yükle</p>
-
-<input type="file" name="photo">
-
 </form>
 
-<div id="loading" style="display:none">
+<div class="result">
 
-<br>
-
-<div class="spinner"></div>
-
-<p>Falcı geleceğini görüyor...</p>
+{% if answer %}
+<p>{{ answer }}</p>
+{% endif %}
 
 </div>
 
-<h2>Tarot Kartı Seç</h2>
-
-<div class="cards">
-
-<div class="card" onclick="flipCard(this,'Moon')">?</div>
-<div class="card" onclick="flipCard(this,'Lovers')">?</div>
-<div class="card" onclick="flipCard(this,'Star')">?</div>
-
 </div>
-
-<div id="tarotResult"></div>
-
-</div>
-
-<script>
-
-function flipCard(card,name){
-
-card.innerHTML=name
-card.style.background="#000"
-
-document.getElementById("tarotResult").innerHTML=
-"Seçilen kart: "+name
-
-}
-
-function showLoading(){
-
-document.getElementById("loading").style.display="block"
-
-}
-
-</script>
 
 </body>
 </html>
