@@ -1,58 +1,61 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>🔮 Fal Bot</title>
+
+<title>Tarot AI</title>
 
 <style>
 
 body{
-background:#000;
-color:#d4af37;
-font-family:Arial, Helvetica, sans-serif;
-text-align:center;
-padding-top:100px;
+background:#0a0a0a;
+font-family:Arial;
+color:#ffd700;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-.container{
-width:400px;
-margin:auto;
+.box{
+background:#111;
 padding:40px;
-border:2px solid #d4af37;
-border-radius:15px;
-box-shadow:0 0 25px rgba(212,175,55,0.5);
-}
-
-h1{
-margin-bottom:30px;
+border-radius:20px;
+box-shadow:0 0 30px gold;
+width:420px;
+text-align:center;
 }
 
 input{
 width:90%;
-padding:12px;
+padding:10px;
+margin-top:10px;
+border-radius:10px;
 border:none;
-border-radius:8px;
-margin-bottom:20px;
-font-size:16px;
 }
 
 button{
-background:#d4af37;
-color:black;
+margin-top:15px;
+padding:10px 20px;
+background:gold;
 border:none;
-padding:12px 25px;
-font-size:16px;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
 }
 
-button:hover{
-background:#b8962e;
+.cards{
+margin-top:20px;
 }
 
-.result{
-margin-top:30px;
-font-size:18px;
+.card{
+background:#222;
+padding:10px;
+margin:5px;
+border-radius:10px;
+}
+
+.yorum{
+margin-top:20px;
+color:white;
 }
 
 </style>
@@ -61,35 +64,56 @@ font-size:18px;
 
 <body>
 
-<div class="container">
+<div class="box">
 
-<h1>🔮 Fal Bot</h1>
+<h1>🔮 Tarot AI</h1>
 
 <form method="POST">
 
-<input type="text" name="question" placeholder="Bir soru sor..." required>
+<input name="question" placeholder="Sorunu yaz..." required>
 
 <br>
 
-<button type="submit">Fal Bak</button>
+<button>Fal Bak</button>
 
 </form>
 
-<div class="result">
 
-{% if answer %}
-<p>{{ answer }}</p>
-{% endif %}
-  {% if tarot %}
-<h2>Tarot Kartların</h2>
-<p>{{ tarot[0] }}</p>
-<p>{{ tarot[1] }}</p>
-<p>{{ tarot[2] }}</p>
-{% endif %}
+{% if cards %}
+
+<div class="cards">
+
+<h3>Seçilen Kartlar</h3>
+
+{% for card in cards %}
+
+<div class="card">
+
+{{card}}
 
 </div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+
+{% if yorum %}
+
+<div class="yorum">
+
+<h3>Fal Yorumu</h3>
+
+<p>{{yorum}}</p>
+
+</div>
+
+{% endif %}
 
 </div>
 
 </body>
+
 </html>
