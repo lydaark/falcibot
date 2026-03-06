@@ -1,44 +1,34 @@
 <!DOCTYPE html>
 
 <html lang="tr">
+
 <head>
-<meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Tarot AI</title>
 
 <style>
 
 body{
-background: radial-gradient(circle,#0a0a0a,#000);
-font-family:Arial;
-color:#ffd700;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-margin:0;
+background: radial-gradient(circle at top,#0a0a0a,#000);
+font-family:Georgia;
+color:#e6c56f;
+text-align:center;
+padding:30px;
 }
 
 .container{
-background:#111;
+max-width:500px;
+margin:auto;
+background:#0f0f0f;
 padding:30px;
 border-radius:20px;
-box-shadow:0 0 25px gold;
-width:95%;
-max-width:500px;
-text-align:center;
+box-shadow:0 0 40px rgba(255,215,0,0.4);
 }
 
-.falci{
-font-size:50px;
-margin-bottom:10px;
-animation:float 3s infinite ease-in-out;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(-8px)}
-100%{transform:translateY(0)}
+h2{
+letter-spacing:2px;
 }
 
 input{
@@ -47,75 +37,58 @@ padding:12px;
 border-radius:10px;
 border:none;
 margin-top:10px;
-font-size:16px;
+background:#1a1a1a;
+color:white;
 }
 
 button{
-margin-top:15px;
+margin-top:20px;
 padding:12px 25px;
-background:gold;
+background:linear-gradient(45deg,#caa74a,#ffd700);
 border:none;
-border-radius:12px;
-cursor:pointer;
+border-radius:10px;
 font-weight:bold;
+cursor:pointer;
 }
 
 .cards{
 display:flex;
-justify-content:center;
-gap:10px;
-margin-top:20px;
 flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+margin-top:30px;
 }
 
 .card{
 width:90px;
 height:140px;
-perspective:1000px;
-}
-
-.card-inner{
-position:relative;
-width:100%;
-height:100%;
-transition:transform 0.8s;
-transform-style:preserve-3d;
-}
-
-.card.flip .card-inner{
-transform:rotateY(180deg);
-}
-
-.card-front,.card-back{
-position:absolute;
-width:100%;
-height:100%;
-backface-visibility:hidden;
-border-radius:10px;
+border-radius:12px;
+background:linear-gradient(145deg,#111,#1c1c1c);
 display:flex;
-justify-content:center;
 align-items:center;
-font-size:12px;
+justify-content:center;
+font-size:26px;
+cursor:pointer;
+transition:0.5s;
+box-shadow:0 0 15px rgba(255,215,0,0.2);
 }
 
-.card-front{
-background:#333;
+.card:hover{
+transform:scale(1.1);
 }
 
-.card-back{
-background:linear-gradient(145deg,#000,#222);
-transform:rotateY(180deg);
+.open{
+background:#000;
 color:gold;
-padding:5px;
-text-align:center;
+transform:rotateY(180deg);
 }
 
 .yorum{
-margin-top:25px;
-color:white;
+margin-top:30px;
 text-align:left;
 line-height:1.6;
 white-space:pre-line;
+color:white;
 }
 
 </style>
@@ -126,61 +99,92 @@ white-space:pre-line;
 
 <div class="container">
 
-<div class="falci">🔮</div>
+<h2>🔮 Tarot AI</h2>
 
-<h2>Tarot AI Falcı</h2>
+<p>3 kart seç ve kaderini öğren</p>
 
-<form method="POST">
+<input id="question" placeholder="Sorunu yaz...">
 
-<input name="question" placeholder="Sorunu yaz..." required>
+<div class="cards" id="cards"></div>
 
-<br>
+<button onclick="falBak()">Fal Bak</button>
 
-<button>Fal Bak</button>
-
-</form>
-
-{% if cards %}
-
-<div class="cards">
-
-{% for card in cards %}
-
-<div class="card flip">
-
-<div class="card-inner">
-
-<div class="card-front">🃏</div>
-
-<div class="card-back">
-
-{{card}}
+<div id="yorum" class="yorum"></div>
 
 </div>
 
-</div>
+<script>
 
-</div>
+const tarot=[
+"The Fool","The Magician","The High Priestess","The Empress",
+"The Emperor","The Lovers","The Chariot","Strength","The Hermit",
+"Wheel of Fortune","Justice","The Hanged Man","Death",
+"Temperance","The Devil","The Tower","The Star","The Moon",
+"The Sun","Judgement","The World"
+]
 
-{% endfor %}
+const cardsDiv=document.getElementById("cards")
 
-</div>
+let selected=[]
 
-{% endif %}
+tarot.forEach(card=>{
 
-{% if yorum %}
+let div=document.createElement("div")
 
-<div class="yorum">
+div.className="card"
 
-<h3>🔮 Fal Yorumu</h3>
+div.innerHTML="🌙"
 
-{{yorum}}
+div.onclick=()=>{
 
-</div>
+if(selected.length<3 && !div.classList.contains("open")){
 
-{% endif %}
+div.classList.add("open")
 
-</div>
+div.innerText=card
+
+selected.push(card)
+
+}
+
+}
+
+cardsDiv.appendChild(div)
+
+})
+
+function falBak(){
+
+let question=document.getElementById("question").value
+
+if(selected.length<3){
+
+alert("Lütfen 3 kart seç")
+
+return
+
+}
+
+fetch("/",{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:`question=${question}`
+})
+.then(res=>res.text())
+.then(html=>{
+
+document.open()
+document.write(html)
+document.close()
+
+})
+
+}
+
+</script>
 
 </body>
+
 </html>
