@@ -8,29 +8,12 @@ app = Flask(__name__)
 client = OpenAI()
 
 tarot_cards = [
-    "The Fool",
-    "The Magician",
-    "The High Priestess",
-    "The Empress",
-    "The Emperor",
-    "The Lovers",
-    "The Chariot",
-    "Strength",
-    "The Hermit",
-    "Wheel of Fortune",
-    "Justice",
-    "The Hanged Man",
-    "Death",
-    "Temperance",
-    "The Devil",
-    "The Tower",
-    "The Star",
-    "The Moon",
-    "The Sun",
-    "Judgement",
-    "The World"
+    "The Fool","The Magician","The High Priestess","The Empress",
+    "The Emperor","The Lovers","The Chariot","Strength","The Hermit",
+    "Wheel of Fortune","Justice","The Hanged Man","Death",
+    "Temperance","The Devil","The Tower","The Star","The Moon",
+    "The Sun","Judgement","The World"
 ]
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -41,7 +24,6 @@ def index():
     if request.method == "POST":
 
         question = request.form["question"]
-
         cards = random.sample(tarot_cards, 3)
 
         prompt = f"""
@@ -52,23 +34,22 @@ Seçilen tarot kartları:
 {cards}
 
 Bu kartlara göre mistik bir tarot falı yorumla.
-Aşk, kader ve gelecek hakkında yorum yap.
 """
 
-     try:
+        try:
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role":"user","content":prompt}]
-    )
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}]
+            )
 
-    yorum = response.choices[0].message.content
+            yorum = response.choices[0].message.content
 
-except Exception as e:
+        except Exception as e:
 
-    yorum = "🔮 Enerjiler şu an çok yoğun... Fal birazdan tekrar bakılabilir."
+            yorum = "🔮 Fal şu anda yorumlanamıyor. Lütfen biraz sonra tekrar deneyin."
+
     return render_template("index.html", yorum=yorum, cards=cards)
-
 
 if __name__ == "__main__":
     app.run()
