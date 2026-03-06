@@ -1,5 +1,12 @@
-from flask import Flask, render_template, request
-import random
+from openai import OpenAI
+client = OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "user", "content": soru}
+    ]
+)
 
 app = Flask(__name__)
 
