@@ -1,61 +1,121 @@
 <!DOCTYPE html>
-<html>
-<head>
 
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tarot AI</title>
 
 <style>
 
 body{
-background:#0a0a0a;
+background: radial-gradient(circle,#0a0a0a,#000);
 font-family:Arial;
 color:#ffd700;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
+margin:0;
 }
 
-.box{
+.container{
 background:#111;
-padding:40px;
+padding:30px;
 border-radius:20px;
-box-shadow:0 0 30px gold;
-width:420px;
+box-shadow:0 0 25px gold;
+width:95%;
+max-width:500px;
 text-align:center;
+}
+
+.falci{
+font-size:50px;
+margin-bottom:10px;
+animation:float 3s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+100%{transform:translateY(0)}
 }
 
 input{
 width:90%;
-padding:10px;
-margin-top:10px;
+padding:12px;
 border-radius:10px;
 border:none;
+margin-top:10px;
+font-size:16px;
 }
 
 button{
 margin-top:15px;
-padding:10px 20px;
+padding:12px 25px;
 background:gold;
 border:none;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
+font-weight:bold;
 }
 
 .cards{
+display:flex;
+justify-content:center;
+gap:10px;
 margin-top:20px;
+flex-wrap:wrap;
 }
 
 .card{
-background:#222;
-padding:10px;
-margin:5px;
+width:90px;
+height:140px;
+perspective:1000px;
+}
+
+.card-inner{
+position:relative;
+width:100%;
+height:100%;
+transition:transform 0.8s;
+transform-style:preserve-3d;
+}
+
+.card.flip .card-inner{
+transform:rotateY(180deg);
+}
+
+.card-front,.card-back{
+position:absolute;
+width:100%;
+height:100%;
+backface-visibility:hidden;
 border-radius:10px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:12px;
+}
+
+.card-front{
+background:#333;
+}
+
+.card-back{
+background:linear-gradient(145deg,#000,#222);
+transform:rotateY(180deg);
+color:gold;
+padding:5px;
+text-align:center;
 }
 
 .yorum{
-margin-top:20px;
+margin-top:25px;
 color:white;
+text-align:left;
+line-height:1.6;
+white-space:pre-line;
 }
 
 </style>
@@ -64,9 +124,11 @@ color:white;
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h1>🔮 Tarot AI</h1>
+<div class="falci">🔮</div>
+
+<h2>Tarot AI Falcı</h2>
 
 <form method="POST">
 
@@ -78,18 +140,25 @@ color:white;
 
 </form>
 
-
 {% if cards %}
 
 <div class="cards">
 
-<h3>Seçilen Kartlar</h3>
-
 {% for card in cards %}
 
-<div class="card">
+<div class="card flip">
+
+<div class="card-inner">
+
+<div class="card-front">🃏</div>
+
+<div class="card-back">
 
 {{card}}
+
+</div>
+
+</div>
 
 </div>
 
@@ -99,21 +168,13 @@ color:white;
 
 {% endif %}
 
-
 {% if yorum %}
 
 <div class="yorum">
 
-<h3>Fal Yorumu</h3>
-
-<div class="yorum">
 <h3>🔮 Fal Yorumu</h3>
 
-<div style="white-space: pre-line; line-height:1.6; text-align:left;">
 {{yorum}}
-</div>
-
-</div>
 
 </div>
 
@@ -122,5 +183,4 @@ color:white;
 </div>
 
 </body>
-
 </html>
