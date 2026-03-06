@@ -1,63 +1,69 @@
+from flask import Flask, render_template, request
 from openai import OpenAI
-client = OpenAI()
-
-response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "user", "content": soru}
-    ]
-)
+import random
+import os
 
 app = Flask(__name__)
 
-# Fal cevapları
-fal_cevaplari = [
-"Yakında güzel bir haber alacaksın.",
-"Bu konuda biraz sabırlı olman gerekiyor.",
-"Şu an doğru zaman değil.",
-"Beklenmedik bir fırsat kapını çalabilir.",
-"Geçmişten biri tekrar hayatına girebilir.",
-"Yeni bir başlangıç görünüyor.",
-"İç sesini dinlemelisin.",
-"Bir yolculuk görünüyor.",
-"Bir dileğin gerçekleşebilir."
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+tarot_cards = [
+    "The Fool",
+    "The Magician",
+    "The High Priestess",
+    "The Empress",
+    "The Emperor",
+    "The Lovers",
+    "The Chariot",
+    "Strength",
+    "The Hermit",
+    "Wheel of Fortune",
+    "Justice",
+    "The Hanged Man",
+    "Death",
+    "Temperance",
+    "The Devil",
+    "The Tower",
+    "The Star",
+    "The Moon",
+    "The Sun",
+    "Judgement",
+    "The World"
 ]
 
-# Tarot kartları
-tarot_kartlari = [
-"The Fool",
-"The Magician",
-"The High Priestess",
-"The Empress",
-"The Emperor",
-"The Lovers",
-"The Chariot",
-"Strength",
-"The Hermit",
-"Wheel of Fortune",
-"The Star",
-"The Moon",
-"The Sun"
-]
 
-@app.route("/", methods=["GET","POST"])
+@app.route("/", methods=["GET", "POST"])
 def index():
 
-    fal_sonucu = ""
-    tarot_sonuc = []
+    yorum = None
+    cards = []
 
     if request.method == "POST":
 
-        # soru falı
-        if request.form.get("question"):
-            fal_sonucu = random.choice(fal_cevaplari)
+        question = request.form["question"]
 
-        # tarot kartları
-        tarot_sonuc = random.sample(tarot_kartlari,3)
+        cards = random.sample(tarot_cards, 3)
 
-    return render_template("index.html",
-                           answer=fal_sonucu,
-                           tarot=tarot_sonuc)
+        prompt = f"""
+Kullanıcı şu soruyu sordu:
+{question}
+
+Seçilen tarot kartları:
+{cards}
+
+Bu kartlara göre mistik bir tarot falı yorumla.
+Aşk, kader ve gelecek hakkında yorum yap.
+"""
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        yorum = response.choices[0].message.content
+
+    return render_template("index.html", yorum=yorum, cards=cards)
+
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run()
