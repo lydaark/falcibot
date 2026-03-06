@@ -55,13 +55,18 @@ Bu kartlara göre mistik bir tarot falı yorumla.
 Aşk, kader ve gelecek hakkında yorum yap.
 """
 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}]
-        )
+     try:
 
-        yorum = response.choices[0].message.content
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role":"user","content":prompt}]
+    )
 
+    yorum = response.choices[0].message.content
+
+except Exception as e:
+
+    yorum = "🔮 Enerjiler şu an çok yoğun... Fal birazdan tekrar bakılabilir."
     return render_template("index.html", yorum=yorum, cards=cards)
 
 
