@@ -24,7 +24,12 @@ def index():
     if request.method == "POST":
 
         question = request.form["question"]
-        cards = random.sample(tarot_cards, 3)
+      cards = request.form.get("cards")
+
+if cards:
+    cards = cards.split(",")
+else:
+    cards = random.sample(tarot_cards,3)
 
         prompt = f"""
 Kullanıcı şu soruyu sordu:
