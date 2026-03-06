@@ -157,20 +157,12 @@ function falBak(){
 
 let question=document.getElementById("question").value
 
-if(selected.length<3){
-
-alert("Lütfen 3 kart seç")
-
-return
-
-}
-
 fetch("/",{
 method:"POST",
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
-body:`question=${question}`
+body:`question=${question}&cards=${selected}`
 })
 .then(res=>res.text())
 .then(html=>{
