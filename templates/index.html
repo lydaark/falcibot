@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>🔮 Fal Bot</title>
+
+<style>
+
+body{
+background:#000;
+color:#d4af37;
+font-family:Arial, Helvetica, sans-serif;
+text-align:center;
+padding-top:100px;
+}
+
+.container{
+width:400px;
+margin:auto;
+padding:40px;
+border:2px solid #d4af37;
+border-radius:15px;
+box-shadow:0 0 25px rgba(212,175,55,0.5);
+}
+
+h1{
+margin-bottom:30px;
+}
+
+input{
+width:90%;
+padding:12px;
+border:none;
+border-radius:8px;
+margin-bottom:20px;
+font-size:16px;
+}
+
+button{
+background:#d4af37;
+color:black;
+border:none;
+padding:12px 25px;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#b8962e;
+}
+
+.result{
+margin-top:30px;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔮 Fal Bot</h1>
+
+<form method="POST">
+
+<input type="text" name="question" placeholder="Bir soru sor..." required>
+
+<br>
+
+<button type="submit">Fal Bak</button>
+
+</form>
+
+<div class="result">
+
+{% if answer %}
+<p>{{ answer }}</p>
+{% endif %}
+  {% if tarot %}
+<h2>Tarot Kartların</h2>
+<p>{{ tarot[0] }}</p>
+<p>{{ tarot[1] }}</p>
+<p>{{ tarot[2] }}</p>
+{% endif %}
+
+</div>
+
+</div>
+
+</body>
+</html>
