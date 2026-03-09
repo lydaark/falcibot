@@ -106,9 +106,8 @@ color:white;
 
 <button onclick="falBak()">Fal Bak</button>
 
-{% if yorum %}
-<div id="yorum">{{ yorum }}</div>
-{% endif %}
+<div id="yorum"></div>
+
 
  
 </div>
@@ -153,10 +152,10 @@ cardsDiv.appendChild(div)
 
 function falBak(){
 
-let question=document.getElementById("question").value
+let question = document.getElementById("question").value
 
-if(selected.length<3){
-alert("Lütfen 3 kart seç")
+if(selected.length < 3){
+alert("Lütfen 3 kart seç.")
 return
 }
 
@@ -165,16 +164,21 @@ method:"POST",
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
-body:"question="+question+"&cards="+selected.join(",")
+body:"question=" + encodeURIComponent(question) + "&cards=" + selected.join(",")
 })
-.then(res=>res.text())
-.then(data=>{
-document.getElementById("yorum").innerHTML=data
+
+.then(res => res.text())
+
+.then(data => {
+
+document.getElementById("yorum").innerHTML = data
+
+})
+
+.catch(error => {
+
+document.getElementById("yorum").innerHTML = "Fal yorumlanamadı."
+
 })
 
 }
-
-</script>
-
-</body>
-</html>
