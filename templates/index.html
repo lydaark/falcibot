@@ -127,15 +127,52 @@ const cardsDiv=document.getElementById("cards")
 
 let selected=[]
 
-tarot.forEach(card=>{
-
-window.onload = function(){
+const tarot=[
+"The Fool","The Magician","The High Priestess","The Empress",
+"The Emperor","The Lovers","The Chariot","Strength","The Hermit",
+"Wheel of Fortune","Justice","The Hanged Man","Death",
+"Temperance","The Devil","The Tower","The Star","The Moon",
+"The Sun","Judgement","The World"
+]
 
 const cardsDiv=document.getElementById("cards")
 let selected=[]
 
 tarot.forEach(card=>{
 
+let div=document.createElement("div")
+div.className="card"
+div.innerHTML="🃏"
+
+div.onclick=()=>{
+if(selected.length<3){
+selected.push(card)
+div.style.background="#ffd700"
+}
+}
+
+cardsDiv.appendChild(div)
+
+})
+
+function falBak(){
+
+let question=document.getElementById("question").value
+
+fetch("/",{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:`question=${question}&cards=${selected}`
+})
+
+.then(res => res.text())
+.then(html => {
+document.getElementById("yorum").innerHTML = html
+})
+
+}
 let div=document.createElement("div")
 div.className="card"
 div.innerHTML="🃏"
