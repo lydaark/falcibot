@@ -168,12 +168,12 @@ headers:{
 body:`question=${question}&cards=${selected}`
 
 })
-
 .then(res=>res.text())
-
 .then(html=>{
 
-document.getElementById("yorum").innerHTML=html
+document.open()
+document.write(html)
+document.close()
 
 })
 
