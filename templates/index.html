@@ -129,29 +129,29 @@ let selected=[]
 
 tarot.forEach(card=>{
 
+window.onload = function(){
+
+const cardsDiv=document.getElementById("cards")
+let selected=[]
+
+tarot.forEach(card=>{
+
 let div=document.createElement("div")
-
 div.className="card"
-
-div.innerHTML="🌙"
+div.innerHTML="🃏"
 
 div.onclick=()=>{
-
-if(selected.length<3 && !div.classList.contains("open")){
-
-div.classList.add("open")
-
-div.innerText=card
-
+if(selected.length<3){
 selected.push(card)
-
+div.style.background="#ffd700"
 }
-
 }
 
 cardsDiv.appendChild(div)
 
 })
+
+}
 
 function falBak(){
 
@@ -172,7 +172,7 @@ body:`question=${question}&cards=${selected}`
 
 }
 </script>
-
+}
 </body>
 
 </html>
