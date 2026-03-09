@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tarot AI</title>
 
 <style>
@@ -69,7 +67,7 @@ align-items:center;
 justify-content:center;
 font-size:26px;
 cursor:pointer;
-transition:0.5s;
+transition:0.4s;
 box-shadow:0 0 15px rgba(255,215,0,0.2);
 }
 
@@ -78,9 +76,8 @@ transform:scale(1.1);
 }
 
 .open{
-background:#000;
-color:gold;
-transform:rotateY(180deg);
+background:#ffd700;
+color:black;
 }
 
 .yorum{
@@ -124,19 +121,9 @@ const tarot=[
 ]
 
 const cardsDiv=document.getElementById("cards")
-
 let selected=[]
 
-const tarot=[
-"The Fool","The Magician","The High Priestess","The Empress",
-"The Emperor","The Lovers","The Chariot","Strength","The Hermit",
-"Wheel of Fortune","Justice","The Hanged Man","Death",
-"Temperance","The Devil","The Tower","The Star","The Moon",
-"The Sun","Judgement","The World"
-]
-
-const cardsDiv=document.getElementById("cards")
-let selected=[]
+window.onload=function(){
 
 tarot.forEach(card=>{
 
@@ -145,43 +132,14 @@ div.className="card"
 div.innerHTML="🃏"
 
 div.onclick=()=>{
-if(selected.length<3){
+
+if(selected.length<3 && !selected.includes(card)){
+
 selected.push(card)
-div.style.background="#ffd700"
-}
-}
-
-cardsDiv.appendChild(div)
-
-})
-
-function falBak(){
-
-let question=document.getElementById("question").value
-
-fetch("/",{
-method:"POST",
-headers:{
-"Content-Type":"application/x-www-form-urlencoded"
-},
-body:`question=${question}&cards=${selected}`
-})
-
-.then(res => res.text())
-.then(html => {
-document.getElementById("yorum").innerHTML = html
-})
+div.classList.add("open")
 
 }
-let div=document.createElement("div")
-div.className="card"
-div.innerHTML="🃏"
 
-div.onclick=()=>{
-if(selected.length<3){
-selected.push(card)
-div.style.background="#ffd700"
-}
 }
 
 cardsDiv.appendChild(div)
@@ -194,22 +152,34 @@ function falBak(){
 
 let question=document.getElementById("question").value
 
+if(selected.length<3){
+alert("Lütfen 3 kart seç")
+return
+}
+
 fetch("/",{
+
 method:"POST",
+
 headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
+
 body:`question=${question}&cards=${selected}`
+
 })
 
-.then(res => res.text())
-.then(html => {
-    document.getElementById("yorum").innerHTML = html
+.then(res=>res.text())
+
+.then(html=>{
+
+document.getElementById("yorum").innerHTML=html
+
 })
 
 }
+
 </script>
 
 </body>
-
 </html>
