@@ -106,9 +106,11 @@ color:white;
 
 <button onclick="falBak()">Fal Bak</button>
 
+{% if yorum %}
+<div id="yorum">{{ yorum }}</div>
+{% endif %}
 
-<div id="yorum"></div>
-  {{ yorum }}
+ 
 </div>
 
 <script>
