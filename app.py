@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request
 from openai import OpenAI
 import os
+import random
 
 app = Flask(__name__)
 
-client = OpenAI(api_keys=os.gentenv('OpenAI_API_KEY'))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 tarot_cards = [
 "The Fool","The Magician","The High Priestess","The Empress",
