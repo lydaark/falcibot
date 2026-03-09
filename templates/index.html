@@ -164,12 +164,13 @@ headers:{
 },
 body:`question=${question}&cards=${selected}`
 })
-.then(res=>res.text())
-.then(html =>{
-document.getElementById("yorum").innerHTML = html
+
+.then(res => res.text())
+.then(html => {
+    document.getElementById("yorum").innerHTML = html
+})
 
 }
-
 </script>
 
 </body>
