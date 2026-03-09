@@ -108,13 +108,11 @@ color:white;
 
 <div id="yorum"></div>
 
-
  
 </div>
 
 <script>
-
-const tarot=[
+const tarot = [
 "The Fool","The Magician","The High Priestess","The Empress",
 "The Emperor","The Lovers","The Chariot","Strength","The Hermit",
 "Wheel of Fortune","Justice","The Hanged Man","Death",
@@ -122,22 +120,26 @@ const tarot=[
 "The Sun","Judgement","The World"
 ]
 
-const cardsDiv=document.getElementById("cards")
-let selected=[]
+let selected = []
 
-window.onload=function(){
+window.onload = function(){
 
-tarot.forEach(card=>{
+const cardsDiv = document.getElementById("cards")
 
-let div=document.createElement("div")
-div.className="card"
-div.innerHTML="🃏"
+tarot.forEach(card => {
 
-div.onclick=()=>{
+let div = document.createElement("div")
 
-if(selected.length<3 && !selected.includes(card)){
+div.className = "card"
+
+div.innerHTML = "🃏"
+
+div.onclick = function(){
+
+if(selected.length < 3 && !selected.includes(card)){
 
 selected.push(card)
+
 div.classList.add("open")
 
 }
